@@ -1,0 +1,23 @@
+package com.example.demo;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+@RestController
+public class HelloController {
+
+    @GetMapping("/hello")
+    public String helloWorld() {
+        return "Hello, World!";
+    }
+    
+    @GetMapping("/flask-hello")
+    public String getFlaskHello(@RequestParam(value = "name", defaultValue = "SpringBoot") String name) {
+        String url = "http://localhost:5000/api/hello?name=" + name;
+        RestTemplate restTemplate = new RestTemplate();
+        String response = restTemplate.getForObject(url, String.class);
+        return "Flask 서버로부터의 응답: " + response;
+    }
+}
